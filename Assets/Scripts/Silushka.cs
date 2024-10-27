@@ -24,6 +24,18 @@ public class Silushka : MonoBehaviour
             print("Силушки - " + currentSilushka + " Не хватает, надо " + value);
         }
     }
+    public void RestoreSilushka(float value)
+    {
+        if (currentSilushka == maxSilushka)
+        {
+            currentSilushka += 0;
+        }
+        else if (currentSilushka + value > maxSilushka)
+        {
+            currentSilushka = maxSilushka;
+        }
+        else currentSilushka += value;
+    }
     public void AddSilushka(float value)
     {
         currentSilushka += value;
@@ -35,6 +47,10 @@ public class Silushka : MonoBehaviour
     public float GetCurrentSilushka()
     {
         return currentSilushka;
+    }
+    public float GetMaxSilushka()
+    {
+        return maxSilushka;
     }
     // Update is called once per frame
     void Update()
