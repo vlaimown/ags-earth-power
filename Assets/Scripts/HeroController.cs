@@ -14,23 +14,29 @@ public class HeroController : MonoBehaviour
     private Rigidbody2D body;
     private Vector2 movementInput;
     private Vector2 rawInput;
-    //private bool grounded;
+    private bool grounded;
     private float realSpeed;
     [SerializeField] private float minjump = 11;
     //private int maxHealth = 100;
     //private int currentHealth;
     public Transform groundchecker;
     public LayerMask groundLayer;
+    //private bool checkGround;
+    private Animator animator;
 
     [SerializeField]
     private float speed = 2;
     [SerializeField]
     private float jumpspeed = 2;
+    [SerializeField] private float restoreValue;
+    [SerializeField] private float curseValue;
 
 
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        //checkGround = false;
     }
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -41,16 +47,21 @@ public class HeroController : MonoBehaviour
         silushka.LoseSilushka(moveCost);
     }
 
-    public void OnJump(InputAction.CallbackContext context)
+    public void OnJump()
     {
+        //print("Jump Provoked");
         Collider2D checkGround = Physics2D.OverlapCircle(groundchecker.position, 0.2f, groundLayer);
-        if(checkGround != null)
+        if(checkGround)
         {
-            if(jumpspeed * silushka.GetCurrentSilushka() >= minjump)
+            //grounded = true;
+            if (jumpspeed * silushka.GetCurrentSilushka() >= minjump)
                 body.velocity = new Vector2(body.velocity.x, jumpspeed * silushka.GetCurrentSilushka());
             else
                 body.velocity = new Vector2(body.velocity.x, minjump);
+            animator.SetTrigger("Jump");
             silushka.LoseSilushka(jumpCost);
+            grounded = false;
+            //checkGround = false;
         }
         /*if (grounded)
         {
@@ -100,6 +111,38 @@ public class HeroController : MonoBehaviour
         //Debug.Log("Move Speed: " + realSpeed);
         //print("Силушка - " + silushka.GetCurrentSilushka());
         body.velocity = new Vector2(movementInput.x * realSpeed, body.velocity.y);
-        
+        // Переворот персонажа в сторону движения
+        if(movementInput.x > 0.01f)
+        {
+            transform.localScale = Vector3.one;
+        }
+        else if(movementInput.x < -0.01f)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        animator.SetBool("Move", movementInput.x != 0); 
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        grounded = true;
+        print("Тэг триггера: " +  collision.gameObject.tag);
+       
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Zemlitsa")) 
+        {
+            silushka.RestoreSilushka(restoreValue);
+        }
+        if (collision.gameObject.CompareTag("CursedLand"))
+        {
+            silushka.LoseSilushka(curseValue);
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        print("триггер покинут: " + collision.gameObject.tag);
+        //print("checkGround - "+checkGround);
+
     }
 }
