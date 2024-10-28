@@ -5,14 +5,22 @@ using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [Header("—сылки")] 
     public Silushka silushka;
     public Transform attackPoint;
-    [SerializeField] float attackCost;
-    public float attackRange;
     public LayerMask enemyLayer;
+   // [Space(3)]
+
+    [Header("ѕараметры атаки")]
+    [Space(3)]
+    [SerializeField] float attackCost;
+    [Space(3)]
+    public float attackRange;
+    [Space(3)]
     public int attackDamage = 10;
+    [Space(3)]
     public float attackSpeed = 0.2f;
+    [Space(3)]
     float nextAttackTime = 0f;
     void Start()
     {
