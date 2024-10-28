@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Параметры боя")]
     [SerializeField] public Health health;
-    //public int maxHealth = 100;
-    //int currentHealth;
-    [SerializeField] private float attackCooldown;
+    [SerializeField] public float attackCooldown;
     [SerializeField] private float range;
-    [SerializeField] private float colliderDistance;
     [SerializeField] private float damage;
-    private float cooldownTimer = Mathf.Infinity;
-    public LayerMask playerLayer;
+
+    [Header("Досягаемость атаки")]
+    [SerializeField] private float colliderDistance;
     [SerializeField] private BoxCollider2D boxCollider;
 
+    [Header("Player Layer")]
+    public float cooldownTimer = Mathf.Infinity;
+    public LayerMask playerLayer;
+
+
+    private Health playerHealth;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,25 +46,22 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        cooldownTimer += Time.deltaTime;
+        
+    }
+    public void DamagePlayer()
+    {
         if (PlayerInSight())
         {
-            if (cooldownTimer >= attackCooldown)
-            {
-                cooldownTimer = 0;
-                
-                //Debug.Log("враг атаковал");
-            }
+            playerHealth.ChangeHealth(-damage);
         }
     }
-    private void DamagePlayer()
-    {
-
-    }
-    private bool PlayerInSight()
+    public bool PlayerInSight()
     {
         RaycastHit2D hit = Physics2D.BoxCast(boxCollider.bounds.center + transform.right * transform.localScale.x * colliderDistance,
             new Vector2(boxCollider.bounds.size.x * range, boxCollider.size.y), 0, Vector2.left, 0, playerLayer);
+
+        if(hit.collider != null)
+            playerHealth = hit.transform.GetComponent<Health>();
 
         return hit.collider != null;
     }
