@@ -15,7 +15,9 @@ public class MeleeEnemy : MonoBehaviour
         // Update is called once per frame
     void FixedUpdate()
     {
+
         enemy.cooldownTimer += Time.deltaTime;
+
         if (enemy.PlayerInSight())
         {
             if (enemy.cooldownTimer >= enemy.attackCooldown)

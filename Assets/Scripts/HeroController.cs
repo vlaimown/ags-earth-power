@@ -98,10 +98,10 @@ public class HeroController : MonoBehaviour
         }
         
     }*/
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         health.ChangeHealth(-1*damage);
-
+        print("current health - " + health.GetHealth());
         if (health.GetHealth() <= 0)
         {
             Die();
@@ -113,6 +113,10 @@ public class HeroController : MonoBehaviour
         //GameObject.SetActive(false);
         Debug.Log(this.name + "умер");
         //Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
+        GameManager.instance.lose();
+
+
     }
     // Start is called before the first frame update
     void Start()

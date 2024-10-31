@@ -16,8 +16,8 @@ public class Enemy : MonoBehaviour
 
     [Header("Область зрения")]
     [SerializeField] private float visionDistance;
-    //[SerializeField] private BoxCollider2D visionCollider;
-    //[SerializeField] private float visionrange;
+    [SerializeField] private BoxCollider2D visionCollider;
+    [SerializeField] private float visionrange;
     [SerializeField] private float speed = 5;
     Transform startPoint;
      
@@ -26,8 +26,8 @@ public class Enemy : MonoBehaviour
     public float cooldownTimer = Mathf.Infinity;
     public LayerMask playerLayer;
     private Transform player;
-
-    private Health playerHealth;
+    //private Health playerHealth;
+    HeroController hero;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,6 +65,16 @@ public class Enemy : MonoBehaviour
             Angry();
         }
         if(Vector2.Distance(transform))*/
+        RaycastHit2D target = Physics2D.BoxCast(visionCollider.bounds.center + transform.right * transform.localScale.x * visionDistance,
+            new Vector2(visionCollider.bounds.size.x * visionrange, visionCollider.size.y), 0, Vector2.left, 0, playerLayer);
+        //print("кидаю луч");
+
+        if (!PlayerInSight() && target.collider != null)
+        {
+            //transform.position = Vector2.MoveTowards(transform.position, collision.transform.position, speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
+            print("Вижу игрока");
+        }
     }
 
 
@@ -72,7 +82,7 @@ public class Enemy : MonoBehaviour
     {
         if (PlayerInSight())
         {
-            playerHealth.ChangeHealth(-damage);
+            hero.TakeDamage(damage);
         }
     }
     public bool PlayerInSight()
@@ -81,7 +91,7 @@ public class Enemy : MonoBehaviour
             new Vector2(boxCollider.bounds.size.x * range, boxCollider.size.y), 0, Vector2.left, 0, playerLayer);
 
         if(hit.collider != null)
-            playerHealth = hit.transform.GetComponent<Health>();
+            hero = hit.transform.GetComponent<HeroController>();
 
         return hit.collider != null;
     }
@@ -104,9 +114,9 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(boxCollider.bounds.center + transform.right * transform.localScale.x * colliderDistance,
             new Vector2(boxCollider.bounds.size.x * range, boxCollider.size.y));
-        /*Gizmos.color = Color.blue;
+        Gizmos.color = Color.green;
         Gizmos.DrawWireCube(visionCollider.bounds.center + transform.right * transform.localScale.x * visionDistance,
-            new Vector2(visionCollider.bounds.size.x * visionrange, visionCollider.size.y));*/
+            new Vector2(visionCollider.bounds.size.x * visionrange, visionCollider.size.y));
     }
     /*public void OnTriggerEnter2D(Collider2D collision)
     {

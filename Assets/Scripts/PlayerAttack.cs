@@ -28,7 +28,7 @@ public class PlayerAttack : MonoBehaviour
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if(context.performed && Time.time >= nextAttackTime)print("Attack performed");
+        //if(context.performed && Time.time >= nextAttackTime)print("Attack performed");
         if(context.performed && Time.time >= nextAttackTime) 
         {
             Attack();
