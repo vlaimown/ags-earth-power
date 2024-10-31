@@ -7,29 +7,46 @@ using UnityEngine.InputSystem;
 
 public class HeroController : MonoBehaviour
 {
+    [Header("Ссылки")]
     [SerializeField] public Health health;
+    public Transform groundchecker;
+    public LayerMask groundLayer;
+    private Animator animator;
     public Silushka silushka;
+
+    [Header("Параметры Прыжка")]
+    [Space(3)]
     [SerializeField] float jumpCost;
+    [Space(3)]
+    [SerializeField] private float minjump = 11;
+    [Space(3)]
+    [SerializeField] private float jumpspeed = 2;
+    //[Space(3)]
+
+    [Header("Параметры движения")]
+    [Space(3)]
+    [SerializeField] private float speed = 2;
+    [Space(3)]
     [SerializeField] float moveCost;
+    //[Space(3)]
+
+    [Header("Воздействие Земли")]
+    [Space(3)]
+    [SerializeField] private float restoreValue;
+    [Space(3)]
+    [SerializeField] private float curseValue;
+
+
     private Rigidbody2D body;
     private Vector2 movementInput;
     private Vector2 rawInput;
     private bool grounded;
     private float realSpeed;
-    [SerializeField] private float minjump = 11;
-    //private int maxHealth = 100;
-    //private int currentHealth;
-    public Transform groundchecker;
-    public LayerMask groundLayer;
-    //private bool checkGround;
-    private Animator animator;
 
-    [SerializeField]
-    private float speed = 2;
-    [SerializeField]
-    private float jumpspeed = 2;
-    [SerializeField] private float restoreValue;
-    [SerializeField] private float curseValue;
+
+    
+    
+
 
 
     private void Awake()
@@ -81,10 +98,10 @@ public class HeroController : MonoBehaviour
         }
         
     }*/
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         health.ChangeHealth(-1*damage);
-
+        print("current health - " + health.GetHealth());
         if (health.GetHealth() <= 0)
         {
             Die();
@@ -96,6 +113,10 @@ public class HeroController : MonoBehaviour
         //GameObject.SetActive(false);
         Debug.Log(this.name + "умер");
         //Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
+        GameManager.instance.lose();
+
+
     }
     // Start is called before the first frame update
     void Start()
@@ -125,7 +146,7 @@ public class HeroController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         grounded = true;
-        print("Тэг триггера: " +  collision.gameObject.tag);
+        //print("Тэг триггера: " +  collision.gameObject.tag);
        
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -141,7 +162,7 @@ public class HeroController : MonoBehaviour
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        print("триггер покинут: " + collision.gameObject.tag);
+        //print("триггер покинут: " + collision.gameObject.tag);
         //print("checkGround - "+checkGround);
 
     }
