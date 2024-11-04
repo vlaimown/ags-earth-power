@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private BoxCollider2D visionCollider;
     [SerializeField] private float visionrange;
     [SerializeField] private float speed = 5;
-    Transform startPoint;
+    Vector2 startPoint;
      
 
     [Header("Player Layer")]
@@ -33,11 +33,12 @@ public class Enemy : MonoBehaviour
     {
         //health.currentHealth = maxHealth;
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        //Vector2 start = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y);
+        startPoint = transform.position;
     }
     private void Awake()
     {
         //player = gameObject.GetComponent<Transform>();
-        startPoint = gameObject.transform;
     }
     public void TakeDamage(float damage)
     {
@@ -68,12 +69,16 @@ public class Enemy : MonoBehaviour
         RaycastHit2D target = Physics2D.BoxCast(visionCollider.bounds.center + transform.right * transform.localScale.x * visionDistance,
             new Vector2(visionCollider.bounds.size.x * visionrange, visionCollider.size.y), 0, Vector2.left, 0, playerLayer);
         //print("кидаю луч");
-
+        startPoint.Set(startPoint.x, gameObject.transform.position.y);
         if (!PlayerInSight() && target.collider != null)
         {
             //transform.position = Vector2.MoveTowards(transform.position, collision.transform.position, speed * Time.deltaTime);
             transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
             print("Вижу игрока");
+        }
+        if(!PlayerInSight() && target.collider == null)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, startPoint, speed * Time.deltaTime);
         }
     }
 
