@@ -13,12 +13,15 @@ public class PosolZone : MonoBehaviour
     [SerializeField] GameObject posol;
     [SerializeField] float posolSpeed;
     Rigidbody2D body;
+    [SerializeField] float minDistPosol;
+    Posol posolScript;
     private void Start()
     {
         player = GameObject.FindWithTag("Player");
         //tutorialPart = 0;
         //scene = false;
-        body = player.GetComponent<Rigidbody2D>(); 
+        body = player.GetComponent<Rigidbody2D>();
+        posolScript = posol.GetComponent<Posol>();
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -36,17 +39,17 @@ public class PosolZone : MonoBehaviour
             posol.transform.position = Vector2.MoveTowards(posol.transform.position, player.transform.position, posolSpeed * Time.deltaTime);
             //print("Stay");
         }
-        if(Vector3.Distance(posol.transform.position, player.transform.position) <= 3)
+        if(Vector3.Distance(posol.transform.position, player.transform.position) <= minDistPosol)
         {
             //posolSpeed = 0;
             ShowTutorial();
             this.gameObject.SetActive(false);
-            posol.SetActive(false);
+            //posol.SetActive(false);
         }
     }
     public void PosolMessage()
     {
-        print("fhgfhfhfghfh");
+        //print("fhgfhfhfghfh");
         posol.SetActive(true); 
         Vector2 pos = new Vector2(player.transform.position.x - 9, posol.transform.position.y);
         //Vector2 pos = new Vector2(body.velocity.x/Mathf.Abs(body.velocity.x) * posolSpeed, body.velocity.y);
@@ -67,5 +70,6 @@ public class PosolZone : MonoBehaviour
     public void ShowTutorial()
     {
         image.gameObject.SetActive(true);
+        posolScript.used = true;
     }
 }

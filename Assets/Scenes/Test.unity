@@ -1131,6 +1131,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.11
       objectReference: {fileID: 0}
+    - target: {fileID: 5795312619708836884, guid: 02ea59f06b26f16428754cd77e9c0f90, type: 3}
+      propertyPath: maxJumpTime
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5795312619708836885, guid: 02ea59f06b26f16428754cd77e9c0f90, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -1960,11 +1964,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5942827183946538210, guid: fcb480c602d5d264c95e203ed8a9380a, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -7.02
+      value: -5.85
       objectReference: {fileID: 0}
     - target: {fileID: 5942827183946538210, guid: fcb480c602d5d264c95e203ed8a9380a, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.14
+      value: 1.18
       objectReference: {fileID: 0}
     - target: {fileID: 5942827183946538210, guid: fcb480c602d5d264c95e203ed8a9380a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1978,9 +1982,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5942827183946538212, guid: fcb480c602d5d264c95e203ed8a9380a, type: 3}
+      propertyPath: m_BodyType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5942827183946538217, guid: fcb480c602d5d264c95e203ed8a9380a, type: 3}
       propertyPath: m_Name
       value: Posol (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5942827183946538217, guid: fcb480c602d5d264c95e203ed8a9380a, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5942827183946538217, guid: fcb480c602d5d264c95e203ed8a9380a, type: 3}
       propertyPath: m_IsActive
@@ -8775,6 +8787,10 @@ PrefabInstance:
       objectReference: {fileID: 1614178712}
     - target: {fileID: 8427071999900423067, guid: 0b528889667e82943b8b9c39c02565df, type: 3}
       propertyPath: posolSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8427071999900423067, guid: 0b528889667e82943b8b9c39c02565df, type: 3}
+      propertyPath: minDistPosol
       value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []

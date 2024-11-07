@@ -21,6 +21,6 @@ public class Disabler : MonoBehaviour
         player.GetComponent<Animator>().SetBool("Cutscene", false);
 
         myObject.SetActive(false);
-
+        
     }
 }

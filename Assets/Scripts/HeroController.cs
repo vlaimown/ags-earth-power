@@ -21,6 +21,8 @@ public class HeroController : MonoBehaviour
     [SerializeField] private float minjump = 11;
     [Space(3)]
     [SerializeField] private float jumpspeed = 2;
+    public float maxJumpTime = 0.25f;
+    private float actualJumpTime;
     //[Space(3)]
 
     [Header("Параметры движения")]
@@ -53,6 +55,7 @@ public class HeroController : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        actualJumpTime = maxJumpTime;
         //checkGround = false;
     }
     public void OnMove(InputAction.CallbackContext context)
@@ -72,7 +75,9 @@ public class HeroController : MonoBehaviour
         Collider2D checkGround = Physics2D.OverlapCircle(groundchecker.position, 0.2f, groundLayer);
         if(checkGround)
         {
+            //if(Input.GetKey(KeyCode.Space)) { print("Spaaaace"); }
             //grounded = true;
+            actualJumpTime = maxJumpTime;
             if (jumpspeed * silushka.GetCurrentSilushka() >= minjump)
                 body.velocity = new Vector2(body.velocity.x, jumpspeed * silushka.GetCurrentSilushka());
             else
@@ -80,6 +85,7 @@ public class HeroController : MonoBehaviour
             animator.SetTrigger("Jump");
             silushka.LoseSilushka(jumpCost);
             grounded = false;
+            
             //checkGround = false;
         }
         /*if (grounded)
@@ -135,6 +141,7 @@ public class HeroController : MonoBehaviour
         //print("Силушка - " + silushka.GetCurrentSilushka());
         body.velocity = new Vector2(movementInput.x * realSpeed, body.velocity.y);
         // Переворот персонажа в сторону движения
+        
         if(movementInput.x > 0.01f)
         {
             transform.localScale = Vector3.one;
@@ -143,7 +150,9 @@ public class HeroController : MonoBehaviour
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
-        animator.SetBool("Move", movementInput.x != 0); 
+        animator.SetBool("Move", movementInput.x != 0);
+        
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
