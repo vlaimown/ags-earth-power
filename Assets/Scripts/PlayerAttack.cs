@@ -9,7 +9,9 @@ public class PlayerAttack : MonoBehaviour
     public Silushka silushka;
     public Transform attackPoint;
     public LayerMask enemyLayer;
-   // [Space(3)]
+    private Animator animator;
+
+    // [Space(3)]
 
     [Header("Параметры атаки")]
     [Space(3)]
@@ -22,9 +24,9 @@ public class PlayerAttack : MonoBehaviour
     public float attackSpeed = 0.2f;
     [Space(3)]
     float nextAttackTime = 0f;
-    void Start()
+    void Awake()
     {
-        
+        animator = GetComponent<Animator>();
     }
     public void OnAttack(InputAction.CallbackContext context)
     {
@@ -39,6 +41,7 @@ public class PlayerAttack : MonoBehaviour
     {
         Collider2D[] HitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
         print("Количество целей - " + HitEnemies.Length);
+        animator.SetTrigger("Attack");
         foreach (Collider2D enemy in HitEnemies)
         {
             //Debug.Log("Attack " + enemy.name);

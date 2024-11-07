@@ -63,6 +63,8 @@ public class HeroController : MonoBehaviour
         realSpeed = speed * silushka.GetCurrentSilushka();
         silushka.LoseSilushka(moveCost);
     }
+    //public GameObject GetPlayer() { return this.gameObject; }
+
 
     public void OnJump()
     {
