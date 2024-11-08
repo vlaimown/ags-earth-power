@@ -34,7 +34,7 @@ public class PlayerAttack : MonoBehaviour
         if(context.performed && Time.time >= nextAttackTime) 
         {
             Attack();
-            nextAttackTime = Time.time + 1f / attackSpeed;
+            nextAttackTime = Time.time + attackSpeed;
         }
     }
     private void Attack()

@@ -5,7 +5,7 @@ using UnityEngine;
 public class MeleeEnemy : MonoBehaviour
 {
     [SerializeField] private Enemy enemy;
-    private Animator animator;
+    [SerializeField] private Animator animator;
 
         // Start is called before the first frame update
     void Start()
@@ -23,11 +23,15 @@ public class MeleeEnemy : MonoBehaviour
             if (enemy.cooldownTimer >= enemy.attackCooldown)
             {
                 enemy.cooldownTimer = 0;
-                //animator.SetTrigger("meleeAttack");
-                enemy.DamagePlayer();
+                animator.SetTrigger("Attack");
                 Debug.Log("враг атаковал");
             }
         }
 
+    }
+
+    public void Attack()
+    {
+        enemy.DamagePlayer();
     }
 }

@@ -148,6 +148,7 @@ public class HeroController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         grounded = true;
+        animator.SetBool("Ground", true);
         //print("Тэг триггера: " +  collision.gameObject.tag);
        
     }
@@ -164,6 +165,7 @@ public class HeroController : MonoBehaviour
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
+        animator.SetBool("Ground", false);
         //print("триггер покинут: " + collision.gameObject.tag);
         //print("checkGround - "+checkGround);
 
