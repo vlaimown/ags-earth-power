@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField, Min(0.2f)] private float _damagedBlinkTime = 0.2f;
+
     [Header("Параметры боя")]
     [SerializeField] public Health health;
     [SerializeField] public float attackCooldown;
@@ -47,6 +49,7 @@ public class Enemy : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
+        StartCoroutine(DamagedBlink());
         health.ChangeHealth(-1*damage);
         print(health.GetHealth());
 
@@ -166,4 +169,16 @@ public class Enemy : MonoBehaviour
             print("Вижу игрока");
         }
     }*/
+
+    private IEnumerator DamagedBlink()
+    {
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+
+        Color color = Color.red;
+        spriteRenderer.color = color;
+        yield return new WaitForSeconds(_damagedBlinkTime);
+
+        color = Color.white;
+        spriteRenderer.color = color;
+    }
 }
