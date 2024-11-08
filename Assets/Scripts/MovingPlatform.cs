@@ -8,7 +8,7 @@ public class MovingPlatform : MonoBehaviour
 
     private Vector2 originalpoint;
     private Vector2 currentTargetPoint;
-    [SerializeField] private int speed = 5;
+    [SerializeField] private float speed = 5;
 
     private void Awake()
     {
@@ -33,4 +33,5 @@ public class MovingPlatform : MonoBehaviour
             body.velocity = Direction * speed;
         }
     }
+    
 }

@@ -44,6 +44,7 @@ public class HeroController : MonoBehaviour
     private Vector2 rawInput;
     private bool grounded;
     private float realSpeed;
+    Rigidbody2D parent;
 
 
     
@@ -151,12 +152,16 @@ public class HeroController : MonoBehaviour
             transform.localScale = new Vector3(-1, 1, 1);
         }
         animator.SetBool("Move", movementInput.x != 0);
-        
+        if (parent != null)
+        {
+            body.velocity += parent.velocity;
+        }
 
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         grounded = true;
+        parent = collision.gameObject.GetComponent<Rigidbody2D>();
         //print("Тэг триггера: " +  collision.gameObject.tag);
        
     }
@@ -170,11 +175,17 @@ public class HeroController : MonoBehaviour
         {
             silushka.LoseSilushka(curseValue);
         }
+        /*if (collision.gameObject.GetComponent<Rigidbody2D>().isKinematic)
+        {
+            this.transform.parent = collision.transform;
+        }*/
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-        //print("триггер покинут: " + collision.gameObject.tag);
-        //print("checkGround - "+checkGround);
+        if (collision.gameObject.GetComponent<Rigidbody2D>() == parent)
+        {
+            parent = null;
+        }
 
     }
 }
