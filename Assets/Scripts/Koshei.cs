@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Koshei : MonoBehaviour, IDamagebale
@@ -18,6 +19,8 @@ public class Koshei : MonoBehaviour, IDamagebale
 
     [Space(5)]
     [SerializeField] private Image _healthBar;
+
+    [SerializeField] private UnityEvent _dead;
 
     private Color _defaultColor;
     private SpriteRenderer _spriteRenderer;
@@ -103,6 +106,7 @@ public class Koshei : MonoBehaviour, IDamagebale
     }
     private void Death()
     {
+        _dead.Invoke();
         _healthBar.gameObject.SetActive(false);
         Destroy(gameObject);
     }
