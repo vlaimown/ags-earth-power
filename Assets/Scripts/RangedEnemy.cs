@@ -9,7 +9,10 @@ public class RangedEnemy : MonoBehaviour
     // private Transform point;
 
 
-
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     private void Shoot()    
     {
         Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);

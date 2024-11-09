@@ -54,7 +54,8 @@ public class Enemy : MonoBehaviour
     {
         //GetComponent<Collider2D>().enabled = false;
         //GameObject.SetActive(false);
-        Debug.Log(this.name + " умер");
+        //Debug.Log(this.name + " умер");
+
         Destroy(this.gameObject);
     }
     

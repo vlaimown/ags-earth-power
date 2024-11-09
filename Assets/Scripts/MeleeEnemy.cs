@@ -10,9 +10,9 @@ public class MeleeEnemy : MonoBehaviour
         // Start is called before the first frame update
     void Start()
     {
-
+        animator = GetComponent<Animator>();
     }
-        // Update is called once per frame
+    // Update is called once per frame
     void FixedUpdate()
     {
 
@@ -25,7 +25,7 @@ public class MeleeEnemy : MonoBehaviour
                 enemy.cooldownTimer = 0;
                 animator.SetTrigger("meleeAttack");
                 enemy.DamagePlayer();
-                Debug.Log("враг атаковал");
+                //Debug.Log("враг атаковал");
             }
         }
 
