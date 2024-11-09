@@ -61,24 +61,24 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        /*if(Vector2.Distance(transform.position, player.position) < visionDistance)
-        {
-            Angry();
-        }
-        if(Vector2.Distance(transform))*/
         RaycastHit2D target = Physics2D.BoxCast(visionCollider.bounds.center + transform.right * transform.localScale.x * visionDistance,
             new Vector2(visionCollider.bounds.size.x * visionrange, visionCollider.size.y), 0, Vector2.left, 0, playerLayer);
-        RaycastHit2D targetBack = Physics2D.BoxCast(visionCollider.bounds.center + transform.right * transform.localScale.x * visionDistance,
+        RaycastHit2D targetBack = Physics2D.BoxCast(visionCollider.bounds.center - transform.right * transform.localScale.x * visionDistance,
             new Vector2(visionCollider.bounds.size.x * visionrange, visionCollider.size.y), 0, Vector2.right, 0, playerLayer);
 
         //print("кидаю луч");
         startPoint.Set(startPoint.x, gameObject.transform.position.y);
         if(targetBack.collider != null)
         {
-            Vector3 rotate = transform.eulerAngles;
-            rotate.x = 180;
-            gameObject.transform.rotation = Quaternion.Euler(rotate);
+            gameObject.transform.Rotate(0f, 180f, 0f);
         }
+        if(targetBack.collider == null && target.collider == null)
+        {
+            //gameObject.transform.localScale = new Vector3(1, 1, 1);
+            gameObject.transform.Rotate(0f, 0f, 0f);
+
+        }
+        //print(targetBack.rigidbody.tag);
         if (!PlayerInSight() && target.collider != null)
         {
             //transform.position = Vector2.MoveTowards(transform.position, collision.transform.position, speed * Time.deltaTime);

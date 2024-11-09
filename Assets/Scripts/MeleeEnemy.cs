@@ -23,7 +23,7 @@ public class MeleeEnemy : MonoBehaviour
             if (enemy.cooldownTimer >= enemy.attackCooldown)
             {
                 enemy.cooldownTimer = 0;
-                //animator.SetTrigger("meleeAttack");
+                animator.SetTrigger("meleeAttack");
                 enemy.DamagePlayer();
                 Debug.Log("враг атаковал");
             }

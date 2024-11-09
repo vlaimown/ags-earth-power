@@ -6,14 +6,14 @@ public class RangedEnemy : MonoBehaviour
     private Animator animator;
     [SerializeField] private GameObject bullet;
     [SerializeField] private Transform bulletSpawnPoint;
-   // private Transform point;
-    
-    private GameObject bulletInst;
+    // private Transform point;
 
-    private void Shoot()
+
+
+    private void Shoot()    
     {
-        Instantiate(bullet, bulletSpawnPoint.position, Quaternion.identity);
-        //print();
+        Instantiate(bullet, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+
     }
     
     public void FixedUpdate()
@@ -27,9 +27,8 @@ public class RangedEnemy : MonoBehaviour
             if (enemy.cooldownTimer >= enemy.attackCooldown)
             {
                 enemy.cooldownTimer = 0;
-                //animator.SetTrigger("rangedAttack");
+                animator.SetTrigger("rangedAttack");
                 Shoot();
-                //Debug.Log("враг атаковал");
             }
         }
     }
