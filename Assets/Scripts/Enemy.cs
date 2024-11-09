@@ -68,14 +68,24 @@ public class Enemy : MonoBehaviour
         if(Vector2.Distance(transform))*/
         RaycastHit2D target = Physics2D.BoxCast(visionCollider.bounds.center + transform.right * transform.localScale.x * visionDistance,
             new Vector2(visionCollider.bounds.size.x * visionrange, visionCollider.size.y), 0, Vector2.left, 0, playerLayer);
+        RaycastHit2D targetBack = Physics2D.BoxCast(visionCollider.bounds.center + transform.right * transform.localScale.x * visionDistance,
+            new Vector2(visionCollider.bounds.size.x * visionrange, visionCollider.size.y), 0, Vector2.right, 0, playerLayer);
+
         //print("кидаю луч");
         startPoint.Set(startPoint.x, gameObject.transform.position.y);
+        if(targetBack.collider != null)
+        {
+            Vector3 rotate = transform.eulerAngles;
+            rotate.x = 180;
+            gameObject.transform.rotation = Quaternion.Euler(rotate);
+        }
         if (!PlayerInSight() && target.collider != null)
         {
             //transform.position = Vector2.MoveTowards(transform.position, collision.transform.position, speed * Time.deltaTime);
             transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
-            print("Вижу игрока");
+            //print("Вижу игрока");
         }
+
         if(!PlayerInSight() && target.collider == null)
         {
             transform.position = Vector2.MoveTowards(transform.position, startPoint, speed * Time.deltaTime);
@@ -122,28 +132,8 @@ public class Enemy : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(visionCollider.bounds.center + transform.right * transform.localScale.x * visionDistance,
             new Vector2(visionCollider.bounds.size.x * visionrange, visionCollider.size.y));
-    }
-    /*public void OnTriggerEnter2D(Collider2D collision)
-    {
-         RaycastHit2D target = Physics2D.BoxCast(visionCollider.bounds.center + transform.right * transform.localScale.x * visionDistance,
-             new Vector2(visionCollider.bounds.size.x * visionrange, visionCollider.size.y), 0, Vector2.left, 0, playerLayer);
-        print("HOBA");
-    }*/
-   /* public void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log("HOBA");
-    }
-    public void OnTriggerStay2D(Collider2D collision)
-    {
-        RaycastHit2D target = Physics2D.BoxCast(visionCollider.bounds.center + transform.right * transform.localScale.x * visionDistance,
-            new Vector2(visionCollider.bounds.size.x * visionrange, visionCollider.size.y), 0, Vector2.left, 0, playerLayer);
-        print("кидаю луч");
+        Gizmos.DrawWireCube(visionCollider.bounds.center - transform.right * transform.localScale.x * visionDistance,
+            new Vector2(visionCollider.bounds.size.x * visionrange, visionCollider.size.y));
 
-        if (!PlayerInSight() && target.collider != null)
-        {
-            //transform.position = Vector2.MoveTowards(transform.position, collision.transform.position, speed * Time.deltaTime);
-            transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed);
-            print("Вижу игрока");
-        }
-    }*/
+    }
 }
