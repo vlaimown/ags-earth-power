@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamagebale
 {
     [SerializeField, Min(0.2f)] private float _damagedBlinkTime = 0.2f;
 

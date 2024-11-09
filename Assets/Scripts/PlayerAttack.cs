@@ -44,8 +44,12 @@ public class PlayerAttack : MonoBehaviour
         animator.SetTrigger("Attack");
         foreach (Collider2D enemy in HitEnemies)
         {
-            //Debug.Log("Attack " + enemy.name);
-            enemy.GetComponent<Enemy>().TakeDamage(attackDamage * silushka.GetCurrentSilushka());
+            if (!enemy.isTrigger)
+            {
+                if (enemy.GetComponent<IDamagebale>() != null)
+                    enemy.GetComponent<IDamagebale>().TakeDamage(attackDamage * silushka.GetCurrentSilushka());
+            }
+
             silushka.LoseSilushka(attackCost);
             print($"{enemy.name} потерял {attackDamage * silushka.GetCurrentSilushka()}");
         }
