@@ -6,21 +6,18 @@ using UnityEngine.UI;
 public class Disabler : MonoBehaviour
 {
     [SerializeField] GameObject myObject;
-    //private PosolZone zone;
-    public GameObject player;
+    public HeroController player;
 
     private void Start()
     {
-        //tutorialPart = 0;
-       player = GameObject.FindWithTag("Player");
-
+       player = GameObject.FindWithTag("Player").GetComponent<HeroController>();
     }
     public void Off()
     {
-        player.GetComponent<HeroController>().enabled = true;
+        player.enabled = true;
         player.GetComponent<Animator>().SetBool("Cutscene", false);
 
         myObject.SetActive(false);
-
+        player.EnableMovement();
     }
 }

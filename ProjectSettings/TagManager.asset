@@ -8,6 +8,7 @@ TagManager:
   - Zemlitsa
   - NeutralLand
   - CursedLand
+  - Music
   layers:
   - Default
   - TransparentFX

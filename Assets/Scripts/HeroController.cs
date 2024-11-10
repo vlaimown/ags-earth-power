@@ -21,6 +21,7 @@ public class HeroController : MonoBehaviour
     [SerializeField] private float minjump = 11;
     [Space(3)]
     [SerializeField] private float jumpspeed = 2;
+    private float _currentJumpSpeed = 0f;
     //[Space(3)]
 
     [Header("Параметры движения")]
@@ -42,7 +43,7 @@ public class HeroController : MonoBehaviour
     private Vector2 rawInput;
     private bool grounded;
     private float realSpeed;
-
+    private bool _moveEnable = false;
 
     
     
@@ -53,6 +54,7 @@ public class HeroController : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        _moveEnable = true;
         //checkGround = false;
     }
     public void OnMove(InputAction.CallbackContext context)
@@ -69,28 +71,22 @@ public class HeroController : MonoBehaviour
     public void OnJump()
     {
         //print("Jump Provoked");
-        Collider2D checkGround = Physics2D.OverlapCircle(groundchecker.position, 0.2f, groundLayer);
-        if(checkGround)
+        if (_moveEnable)
         {
-            //grounded = true;
-            if (jumpspeed * silushka.GetCurrentSilushka() >= minjump)
-                body.velocity = new Vector2(body.velocity.x, jumpspeed * silushka.GetCurrentSilushka());
-            else
-                body.velocity = new Vector2(body.velocity.x, minjump);
-            animator.SetTrigger("Jump");
-            silushka.LoseSilushka(jumpCost);
-            grounded = false;
-            //checkGround = false;
+            Collider2D checkGround = Physics2D.OverlapCircle(groundchecker.position, 0.2f, groundLayer);
+            if (checkGround)
+            {
+                //grounded = true;
+                if (jumpspeed * silushka.GetCurrentSilushka() >= minjump)
+                    body.velocity = new Vector2(body.velocity.x, jumpspeed * silushka.GetCurrentSilushka());
+                else
+                    body.velocity = new Vector2(body.velocity.x, minjump);
+                animator.SetTrigger("Jump");
+                silushka.LoseSilushka(jumpCost);
+                grounded = false;
+                //checkGround = false;
+            }
         }
-        /*if (grounded)
-        {
-            body.velocity = new Vector2(body.velocity.x, jumpspeed * silushka.GetCurrentSilushka());
-            //Debug.Log("Jump power: " + $"{jumpspeed * silushka.GetCurrentSilushka()}");
-            silushka.LoseSilushka(jumpCost);
-
-            
-
-        }*/
     }
     /*private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -169,5 +165,15 @@ public class HeroController : MonoBehaviour
         //print("триггер покинут: " + collision.gameObject.tag);
         //print("checkGround - "+checkGround);
 
+    }
+
+    public void DisableMovement()
+    {
+        _moveEnable = false;
+    }
+
+    public void EnableMovement()
+    {
+        _moveEnable = true;
     }
 }
