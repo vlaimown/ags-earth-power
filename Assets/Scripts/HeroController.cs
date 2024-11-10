@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 
@@ -32,6 +31,8 @@ public class HeroController : MonoBehaviour
     //[Space(3)]
 
     [Header("Воздействие Земли")]
+    [Space(3)]
+    [SerializeField] private Image _healthBarFill;
     [Space(3)]
     [SerializeField] private float restoreValue;
     [Space(3)]
@@ -154,14 +155,15 @@ public class HeroController : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("CursedLand"))
         {
+            _healthBarFill.color = new Color(0f, 100f, 0f);
             silushka.LoseSilushka(curseValue);
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
         animator.SetBool("Ground", false);
-        //print("триггер покинут: " + collision.gameObject.tag);
-        //print("checkGround - "+checkGround);
+        if (collision.gameObject.CompareTag("CursedLand"))
+            _healthBarFill.color = new Color(0f, 255f, 255f);
 
     }
 
