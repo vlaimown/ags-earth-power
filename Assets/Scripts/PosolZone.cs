@@ -18,7 +18,6 @@ public class PosolZone : MonoBehaviour
     {
         if (collision.TryGetComponent<HeroController>(out var vorplayer))
         {
-            Debug.Log("Триггер свершён");
             PosolMessage();
         }
     }

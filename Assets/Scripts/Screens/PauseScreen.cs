@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseScreen : MonoBehaviour
 {
@@ -27,5 +28,10 @@ public class PauseScreen : MonoBehaviour
         }
 
         _isPaused = !_isPaused;
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MenuMain");
     }
 }
