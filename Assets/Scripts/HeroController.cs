@@ -61,11 +61,9 @@ public class HeroController : MonoBehaviour
     {
         rawInput = (context.ReadValue<Vector2>().normalized);
         movementInput.Set(rawInput.x, body.velocity.y);
-        //Debug.Log("Move Speed: " + $"{rawInput.x * silushka.GetCurrentSilushka() * speed}");
         realSpeed = speed * silushka.GetCurrentSilushka();
         silushka.LoseSilushka(moveCost);
     }
-    //public GameObject GetPlayer() { return this.gameObject; }
 
 
     public void OnJump()
@@ -170,10 +168,12 @@ public class HeroController : MonoBehaviour
     public void DisableMovement()
     {
         _moveEnable = false;
+        realSpeed = 0f;
     }
 
     public void EnableMovement()
     {
         _moveEnable = true;
+        realSpeed = speed * silushka.GetCurrentSilushka();
     }
 }

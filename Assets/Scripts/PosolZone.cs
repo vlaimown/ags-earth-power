@@ -13,6 +13,7 @@ public class PosolZone : MonoBehaviour
     [SerializeField] private Animator _posolAnimator;
     [SerializeField] private float _interactiveDistance = 0.5f;
     [SerializeField, Min(0.1f)] private float _posolBlinkTime = 0.15f;
+    [SerializeField] private float _offset = 0.5f;
     public void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<HeroController>(out var vorplayer))
@@ -25,7 +26,7 @@ public class PosolZone : MonoBehaviour
     {
         if (collision.TryGetComponent<HeroController>(out var vorplayer))
         {
-            posol.transform.position = Vector2.MoveTowards(posol.transform.position, new Vector2(target.transform.position.x, target.transform.position.y - 0.45f), posolSpeed * Time.deltaTime);
+            posol.transform.position = Vector2.MoveTowards(posol.transform.position, new Vector2(target.transform.position.x, target.transform.position.y - _offset), posolSpeed * Time.deltaTime);
         }
 
         if (Vector3.Distance(posol.transform.position, target.transform.position) <= _interactiveDistance)
@@ -72,15 +73,4 @@ public class PosolZone : MonoBehaviour
         color.a = 1f;
         spriteRenderer.color = color;
     }
-
-    //private IEnumerator GoBack()
-    //{
-    //    Vector2 pos = new Vector2(target.transform.position.x - 16f, target.transform.position.y);
-
-    //    if (Vector2.Distance(posol.transform.position, pos) > _interactiveDistance)
-    //    {
-    //        posol.transform.position = Vector2.MoveTowards(posol.transform.position, pos, posolSpeedGoBack * Time.deltaTime);
-    //    }
-    //    yield return new WaitForSeconds(0.05f);
-    //}
 }
