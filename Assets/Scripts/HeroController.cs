@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -37,7 +38,9 @@ public class HeroController : MonoBehaviour
     [SerializeField] private float restoreValue;
     [Space(3)]
     [SerializeField] private float curseValue;
+    [SerializeField] private Color _curseColor = new Color(0f, 150f, 0f);
 
+    [SerializeField] private UnityEvent _dead;
 
     private Rigidbody2D body;
     private Vector2 movementInput;
@@ -46,17 +49,11 @@ public class HeroController : MonoBehaviour
     private float realSpeed;
     private bool _moveEnable = false;
 
-    
-    
-
-
-
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         _moveEnable = true;
-        //checkGround = false;
     }
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -66,16 +63,13 @@ public class HeroController : MonoBehaviour
         silushka.LoseSilushka(moveCost);
     }
 
-
     public void OnJump()
     {
-        //print("Jump Provoked");
         if (_moveEnable)
         {
             Collider2D checkGround = Physics2D.OverlapCircle(groundchecker.position, 0.2f, groundLayer);
             if (checkGround)
             {
-                //grounded = true;
                 if (jumpspeed * silushka.GetCurrentSilushka() >= minjump)
                     body.velocity = new Vector2(body.velocity.x, jumpspeed * silushka.GetCurrentSilushka());
                 else
@@ -83,22 +77,12 @@ public class HeroController : MonoBehaviour
                 animator.SetTrigger("Jump");
                 silushka.LoseSilushka(jumpCost);
                 grounded = false;
-                //checkGround = false;
             }
         }
     }
-    /*private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "ground")
-        {
-            grounded = true;
-        }
-        
-    }*/
     public void TakeDamage(float damage)
     {
         health.ChangeHealth(-1*damage);
-        print("current health - " + health.GetHealth());
         if (health.GetHealth() <= 0)
         {
             Die();
@@ -106,29 +90,19 @@ public class HeroController : MonoBehaviour
     }
     private void Die()
     {
-        //GetComponent<Collider2D>().enabled = false;
-        //GameObject.SetActive(false);
-        Debug.Log(this.name + "умер");
-        //Destroy(this.gameObject);
-        this.gameObject.SetActive(false);
-        GameManager.instance.lose();
-
-
+        Debug.Log(name + "умер");
+        gameObject.SetActive(false);
+        _dead.Invoke();
     }
-    // Start is called before the first frame update
     void Start()
     {
-        //currentHealth = maxHealth;
         realSpeed = speed * silushka.GetCurrentSilushka();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
-        //Debug.Log("Move Speed: " + $"{rawInput.x * silushka.GetCurrentSilushka() * speed}");
-        //Debug.Log("Move Speed: " + realSpeed);
-        //print("Силушка - " + silushka.GetCurrentSilushka());
         body.velocity = new Vector2(movementInput.x * realSpeed, body.velocity.y);
+
         // Переворот персонажа в сторону движения
         if(movementInput.x > 0.01f)
         {
@@ -155,7 +129,7 @@ public class HeroController : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("CursedLand"))
         {
-            _healthBarFill.color = new Color(0f, 100f, 0f);
+            _healthBarFill.color = _curseColor;
             silushka.LoseSilushka(curseValue);
         }
     }

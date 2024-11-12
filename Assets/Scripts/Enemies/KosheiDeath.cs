@@ -12,7 +12,7 @@ public class KosheiDeath : MonoBehaviour, IDamagebale
 
     public void TakeDamage(float damage)
     {
-        _animator.SetTrigger("Hurt");
+        //_animator.SetTrigger("Hurt");
         _koshei.StartDamageBlinkAnim();
         _koshei.Damaged(damage);
     }

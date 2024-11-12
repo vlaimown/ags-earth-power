@@ -45,7 +45,10 @@ public class Koshei : MonoBehaviour, IDamagebale
     {
         if (!_stuned)
         {
-            transform.position = Vector2.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
+            if (Vector2.Distance(transform.position, _target.position) > _attackRange + 0.65f)
+            {
+                transform.position = Vector2.MoveTowards(transform.position, _target.position, _speed * Time.deltaTime);
+            }
 
             if (_target.position.x > transform.position.x && !_isFacingRight)
                 Flip();
@@ -84,7 +87,7 @@ public class Koshei : MonoBehaviour, IDamagebale
         }
         else
         {
-            _animator.SetTrigger("Hurt");
+            _animator.SetBool("Attack", false);
             _stuned = true;
             StartCoroutine(StanAnimation());
         }
@@ -125,25 +128,29 @@ public class Koshei : MonoBehaviour, IDamagebale
         _spriteRenderer.color = _defaultColor;
 
         _stuned = false;
+
+        if (Vector2.Distance(transform.position, _target.position) <= _attackRange + 0.75f)
+        {
+            _attacking = true;
+            _animator.SetBool("Attack", true);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.tag);
-
         if (collision.gameObject.CompareTag("Player"))
         {
             _attacking = true;
-            Attack();
+            _animator.SetBool("Attack", true);
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && !_stuned)
+        if (collision.gameObject.CompareTag("Player"))
         {
             _attacking = false;
-            _animator.SetTrigger("Attack");
+            _animator.SetBool("Attack", false);
         }
     }
 
